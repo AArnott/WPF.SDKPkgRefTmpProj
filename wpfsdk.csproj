@@ -1,8 +1,19 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.4.0">
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.4.0" InitialTargets="Prep">
   <PropertyGroup>
+    <_IsWpfTempProject Condition="'$(MSBuildProjectExtension)' == '.tmp_proj' OR $(MSBuildProjectName.EndsWith('_wpftmp'))">true</_IsWpfTempProject>
     <TargetFramework>net46</TargetFramework>
     <OutputType>exe</OutputType>
+
+    <!--<MarkupCompilePass1DependsOn>
+      GenerateAssemblyVersionInfo;
+      $(MarkupCompilePass1DependsOn)
+    </MarkupCompilePass1DependsOn>-->
+
+    <GenerateAssemblyVersionInfo>true</GenerateAssemblyVersionInfo>
+
   </PropertyGroup>
+
+  <Import Project="$(BaseIntermediateOutputPath)$(AssemblyName).*.props" Condition="'$(_IsWpfTempProject)' == 'true'" />
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.23" />
@@ -13,5 +24,16 @@
     <Message Importance="high" Text="$(MSBuildProjectName) MarkupCompilePass1DependsOn: $(MarkupCompilePass1DependsOn)" />
     <Message Importance="high" Text="$(MSBuildProjectName) GetPackageVersionDependsOn: $(GetPackageVersionDependsOn)" />
     <Message Importance="high" Text="$(MSBuildProjectName) _NBGV_PlatformSuffix: $(_NBGV_PlatformSuffix)" />
+  </Target>
+
+  <Import Project="$(BaseIntermediateOutputPath)$(AssemblyName).*.targets" Condition="'$(_IsWpfTempProject)' == 'true'" />
+
+  <Target Name="Prep">
+    <PropertyGroup>
+      <CoreCompileDependsOn>
+        GenerateAssemblyVersionInfo;
+        $(CoreCompileDependsOn)
+      </CoreCompileDependsOn>
+    </PropertyGroup>
   </Target>
 </Project>
