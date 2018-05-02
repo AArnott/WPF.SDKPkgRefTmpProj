@@ -1,0 +1,17 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras/1.4.0">
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+    <OutputType>exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="2.1.23" />
+  </ItemGroup>
+
+  <Target Name="test" BeforeTargets="CoreCompile">
+    <Message Importance="high" Text="$(MSBuildProjectName) CoreCompileDependsOn: $(CoreCompileDependsOn)" />
+    <Message Importance="high" Text="$(MSBuildProjectName) MarkupCompilePass1DependsOn: $(MarkupCompilePass1DependsOn)" />
+    <Message Importance="high" Text="$(MSBuildProjectName) GetPackageVersionDependsOn: $(GetPackageVersionDependsOn)" />
+    <Message Importance="high" Text="$(MSBuildProjectName) _NBGV_PlatformSuffix: $(_NBGV_PlatformSuffix)" />
+  </Target>
+</Project>
